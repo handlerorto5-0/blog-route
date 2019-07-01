@@ -4,7 +4,25 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    # Check if URL requests a day
+    if Date.valid_date? params[:year].to_i, params[:month].to_i, params[:day].to_i
+      start_date = Date.parse("#{params[:day]}.#{params[:month]}.#{params[:year]}")
+      end_date = start_date
+    # Check if URL requests a month
+    elsif Date.valid_date? params[:year].to_i, params[:month].to_i, 1
+      start_date = Date.parse("1.#{params[:month]}.#{params[:year]}")
+      end_date = start_date.end_to_month
+    # Check if URL requests a year
+    elsif Date.valid_date? params[:year].to_i,1,1
+      start_date = Date.parse("1.1.#{params[:year]}")
+      end_date = start_date.end_to_year
+    end
+
+    if start_date && end_date
+      @posts = Post.where(published_on: start_date..end_date)
+    else
+      @posts = Post.all
+    end    
   end
 
   # GET /posts/1

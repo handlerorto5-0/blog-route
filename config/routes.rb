@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'page/index'
   resources :posts
 
   #reditect to invdlid URL

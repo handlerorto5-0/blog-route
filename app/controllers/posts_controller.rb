@@ -11,11 +11,11 @@ class PostsController < ApplicationController
     # Check if URL requests a month
     elsif Date.valid_date? params[:year].to_i, params[:month].to_i, 1
       start_date = Date.parse("1.#{params[:month]}.#{params[:year]}")
-      end_date = start_date.end_to_month
+      end_date = start_date.end_of_month
     # Check if URL requests a year
     elsif params[:year] && Date.valid_date?(params[:year].to_i,1,1)
       start_date = Date.parse("1.1.#{params[:year]}")
-      end_date = start_date.end_to_year
+      end_date = start_date.end_of_year
     end
 
     if start_date && end_date
